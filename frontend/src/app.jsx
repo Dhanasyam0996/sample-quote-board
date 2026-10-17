@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 
-// Automatically uses VITE_API_URL in production (Vercel) or falls back to localhost for dev
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/quotes/';
 
 export default function App() {
@@ -53,7 +52,7 @@ export default function App() {
 
       setAuthor('');
       setText('');
-      fetchQuotes(); // Refresh list to show newly added quote
+      fetchQuotes();
     } catch (err) {
       alert(err.message);
     }
@@ -70,7 +69,6 @@ export default function App() {
         throw new Error('Failed to delete quote');
       }
 
-      // Optimistically filter it out from state immediately
       setQuotes((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
       alert(err.message);
@@ -110,4 +108,21 @@ export default function App() {
 
       <div className="quote-list">
         {quotes.map((q) => (
-          <div key={q.id} className="
+          <div key={q.id} className="quote-card">
+            <p className="quote-text">"{q.text}"</p>
+            <div className="card-footer">
+              <span className="quote-author">— {q.author}</span>
+              <button
+                type="button"
+                className="del-btn"
+                onClick={() => handleDelete(q.id)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
